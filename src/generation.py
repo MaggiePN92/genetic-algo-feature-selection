@@ -27,10 +27,10 @@ class Generation:
             indi = Individual(i, vec, fitness)
             self.pop.append(indi)
 
-    def _sort_generation(self):
+    def sort_generation(self):
         self.pop.sort(key = lambda x: x.fitness)
 
-    def _mutate(self):
+    def mutate(self):
         mutation_prob_percent = self.mutation_prob * 100
 
         for individual in self.pop:
@@ -46,7 +46,7 @@ class Generation:
             return 0
         return 1
 
-    def _keep_n_fittest(self, n):
+    def keep_n_fittest(self, n):
         self.pop = self.pop[-n:]
 
     def get_crossover_vecs(self):

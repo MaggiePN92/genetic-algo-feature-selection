@@ -18,21 +18,19 @@ class GA:
     def search(self):
         """ Generate k generations. In each generation sort, mutate and
         keep n-fittest. Transfer n-fittest to next generation with 
-        crossover_vecs."""
-
-        pop_size = self.pop_size
-        n_genes = self.n_genes
-        score_func = self.score_func
+        crossover_vecs.
+        
+        :returns best solution 
+        """
         crossover_vecs = self.crossover_vecs
-        mutation_prob = self.mutation_prob
 
         for gen in tqdm(range(self.k_generations)):
-            g = Generation(pop_size, n_genes, score_func,
-                          crossover_vecs, mutation_prob)
+            g = Generation(self.pop_size, self.n_genes, self.score_func,
+                          crossover_vecs, self.mutation_prob)
             
-            g._mutate()
-            g._sort_generation()
-            g._keep_n_fittest(self.num_crossover_ind)
+            g.mutate()
+            g.sort_generation()
+            g.keep_n_fittest(self.num_crossover_ind)
             crossover_vecs = g.get_crossover_vecs()
         
         return g.get_best()
