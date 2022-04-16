@@ -46,10 +46,10 @@ def main():
         cos_sim = dot(soln, vec) / (norm(soln) * norm(vec))
         return cos_sim
     
-    ga_search = GA(50, 10, 5, 4, scoring_func)
+    ga_search = GA(1000, 10, 5, 4, scoring_func)
     best_result = ga_search.search()
 
-    print(f"Best score: {scoring_func(best_result)}")
+    print(f"Best score: {scoring_func(best_result.vec)}")
 
 
 if __name__ == "__main__":

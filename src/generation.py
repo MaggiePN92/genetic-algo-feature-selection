@@ -34,7 +34,6 @@ class Generation:
         mutation_prob_percent = self.mutation_prob * 100
 
         for individual in self.pop:
-            print(individual.vec)
             for idx, gene in enumerate(individual.vec):
                 if randint(1,100) <= mutation_prob_percent:
                     individual.vec[idx] = self._flip_gene(gene)
@@ -55,7 +54,7 @@ class Generation:
             crossover_vecs.append(ind.vec)
         return crossover_vecs
 
-    def get_best():
+    def get_best(self):
         return self.pop[-1]
 
 
