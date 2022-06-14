@@ -1,5 +1,5 @@
 from random import randint
-from individual import Individual
+from genetic_feature_selection.individual import Individual
 
 
 class Generation:
@@ -57,8 +57,32 @@ class Generation:
     def get_best(self):
         return self.pop[-1]
 
+    def _mix_genetics(self, ind1: Individual, ind2: Individual, ratio: float = 0.5, 
+                      keep_first: bool = True) -> list:
+        """Mixes the genes of the two individuals.
 
-if __name__ == "__main__":
+        Args:
+            ind1 (Individual): Individual that will be mixed with ind2.
+            ind2 (Individual): Individual that will be mixed with ind1.
+            ratio (float): What ratio should genes be mixed. ratio = .5 gives a 50/50 mix of genes.
+            keep_first (Boolean): If true will keep gene from ind1 if lenght of vectors is odd.
+
+        Returns:
+            list: mixed 
+        """
+        if len(ind1) != len(ind2):
+            # Raise meaningfull error
+            raise Exception
+        if keep_first:
+            slice_idx = int(len(ind1) * ratio) + (len(ind1) * ratio> 0)
+        else:
+            slice_idx = int(len(ind1) * ratio)
+        
+        mixed = ind1[:slice_idx] + ind2[slice_idx:]
+        return mixed
+
+
+def main():
     from numpy import dot
     from numpy.linalg import norm  
 
@@ -80,5 +104,8 @@ if __name__ == "__main__":
         pop_size2, n_genes2, scoring_func, crossover_vecs=crossover_vecs
     )
 
-    g2._sort_generation()
+    g2.sort_generation()
     print(g2.pop[-1].fitness)
+
+if __name__ == "__main__":
+    main()
