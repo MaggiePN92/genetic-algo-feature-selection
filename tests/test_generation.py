@@ -1,6 +1,6 @@
 # import random
-from tkinter import S
-from src.generation import Generation
+from genetic_feature_selection.generation import Generation
+from genetic_feature_selection.individual import Individual
 from numpy import dot
 from numpy.linalg import norm
 
@@ -42,7 +42,7 @@ def test_n_genes():
         assert len(v.vec) == n_genes
 
 def test_sort_generation():
-    g2._sort_generation()
+    g2.sort_generation()
     assert g2.pop[-1].vec == [0, 1, 0, 1, 0]
 
 def test_keep_n_fittest():
@@ -50,11 +50,32 @@ def test_keep_n_fittest():
         8, 5, scoring_func
     )
 
-    g3._keep_n_fittest(n = 6)
+    g3.keep_n_fittest(n = 6)
     assert len(g3.pop) == 6
-    g3._keep_n_fittest(n = 4)
+    g3.keep_n_fittest(n = 4)
     assert len(g3.pop) == 4
 
 def test_mutation():
     pass 
-    
+
+"""def test_crossover():
+    g_crossover = Generation(
+        2, 5, scoring_func, 
+        crossover_vecs=[[1,1,1,1,1], [0,0,0,0,0]]
+    )
+    g_crossover.mutate()
+    crossed_over = g_crossover.get_crossover_vecs()
+
+    assert crossover_vecs[0] != crossed_over[0]
+    assert crossover_vecs[0] != crossed_over[1]
+    assert crossover_vecs[1] != crossed_over[0]
+    assert crossover_vecs[1] != crossed_over[1]"""
+
+
+def test_mix_genetics():
+    g = Generation(
+        2, 5, scoring_func, 
+        crossover_vecs=[[1,1,1,1,1], [0,0,0,0,0]]
+    )
+    mixed = g._mix_genetics([1,1,1,1,1], [0,0,0,0,0])
+    assert mixed == [1,1,1,0,0]
