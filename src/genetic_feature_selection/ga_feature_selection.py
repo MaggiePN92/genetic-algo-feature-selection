@@ -1,5 +1,3 @@
-from cmath import nan
-import math
 from generation import Generation, mix_genetics
 from tqdm import tqdm
 from typing import List, Tuple, Callable
