@@ -11,20 +11,19 @@ class Generation:
         self.pop = []
         self.mutation_prob = mutation_prob
         self.crossover_vecs = crossover_vecs
-        self._init_pop()
     
-    def _init_pop(self):
+    def init_pop(self):
         if len(self.crossover_vecs) > 0:
             for idx, vec in enumerate(self.crossover_vecs):
                 fitness = self.score_func(vec)
-                indi = Individual(idx, vec, fitness)
+                indi = Individual(vec, fitness)
                 self.pop.append(indi)
 
         for i in range(len(self.crossover_vecs), self.pop_size):
             vec = [randint(0, 1) for _ in range(self.n_genes)]
             fitness = self.score_func(vec)
             
-            indi = Individual(i, vec, fitness)
+            indi = Individual(vec, fitness)
             self.pop.append(indi)
 
     def sort_generation(self):
@@ -48,38 +47,44 @@ class Generation:
     def keep_n_fittest(self, n):
         self.pop = self.pop[-n:]
 
-    def get_crossover_vecs(self):
+    def get_vecs(self):
         crossover_vecs = []
         for ind in self.pop:
             crossover_vecs.append(ind.vec)
         return crossover_vecs
 
     def get_best(self):
+        """Returns the best solution in this population."""
         return self.pop[-1]
 
-    def _mix_genetics(self, ind1: Individual, ind2: Individual, ratio: float = 0.5, 
-                      keep_first: bool = True) -> list:
-        """Mixes the genes of the two individuals.
 
-        Args:
-            ind1 (Individual): Individual that will be mixed with ind2.
-            ind2 (Individual): Individual that will be mixed with ind1.
-            ratio (float): What ratio should genes be mixed. ratio = .5 gives a 50/50 mix of genes.
-            keep_first (Boolean): If true will keep gene from ind1 if lenght of vectors is odd.
 
-        Returns:
-            list: mixed 
-        """
-        if len(ind1) != len(ind2):
-            # Raise meaningfull error
-            raise Exception
-        if keep_first:
-            slice_idx = int(len(ind1) * ratio) + (len(ind1) * ratio> 0)
-        else:
-            slice_idx = int(len(ind1) * ratio)
-        
-        mixed = ind1[:slice_idx] + ind2[slice_idx:]
-        return mixed
+def mix_genetics(ind1: list, ind2: list, ratio: float = 0.5, 
+                    keep_first: bool = True) -> list:
+    """Mixes the genes of the two individuals.
+
+    Args:
+        ind1 (list): Vector that will be mixed with vector2.
+        ind2 (list): Vector that will be mixed with vector1.
+        ratio (float): What ratio should genes be mixed. ratio = .5 gives a 50/50 mix of genes.
+        keep_first (Boolean): If true will keep gene from ind1 if lenght of vectors is odd.
+
+    Returns:
+        list: mixed 
+    """
+
+    # TODO: introduce more randomness in gene mixing
+
+    if len(ind1) != len(ind2):
+        # Raise meaningfull error
+        raise Exception
+    if keep_first:
+        slice_idx = int(len(ind1) * ratio) + (len(ind1) * ratio> 0)
+    else:
+        slice_idx = int(len(ind1) * ratio)
+    
+    mixed = ind1[:slice_idx] + ind2[slice_idx:]
+    return mixed
 
 
 def main():

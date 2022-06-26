@@ -4,6 +4,5 @@ from typing import List
 
 @dataclass
 class Individual:
-    id: int
-    vec: List[List]
+    vec: List[int]
     fitness: int
